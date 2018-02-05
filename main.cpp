@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "RpnNumber.cpp"
+#include "WholeNumber.h"
 
 using namespace std;
 
@@ -52,36 +53,35 @@ string readExpression() {
 void interpretInput(const string &userInput) {
     cout << "interpreting input: " << userInput << endl;
 
-//    vector<char> characters(userInput.c_str(), userInput.c_str() + userInput.size() + 1);
+    vector<char> characters(userInput.c_str(), userInput.c_str() + userInput.size() + 1);
 
-//    RpnNumber* numberStack = nullptr;
-//
-//    string currentChunk;
-//    for (char character : characters) {
-//
-//        if (character == validOperators[0]) {
-//
-//        } else if  (character == validOperators[1]) {
-//
-//        } else if (character == validOperators[2]) {
-//
-//        } else if (character == delimiter && !currentChunk.empty()) {
-//            // create a number
-//
-////            if (numberStack) {
-////                numberStack = &(new RpnNumber(currentChunk, numberStack));
-////            } else {
-////                numberStack = &new RpnNumber(currentChunk);
-////            }
-//
-//
-//        } else {
-//            currentChunk += character;
-//        }
-//
-//
-//        cout << character << endl;
-//    }
+    string currentChunk;
+    for (char character : characters) {
+
+        cout << "doing operation +" << endl;
+        if (character == validOperators[0]) {
+
+            currentChunk = "";
+        } else if  (character == validOperators[1]) {
+            cout << "doing operation *" << endl;
+
+            currentChunk = "";
+        } else if (character == validOperators[2]) {
+            cout << "doing operation ^" << endl;
+
+            currentChunk = "";
+        } else if (character == delimiter && !currentChunk.empty()) {
+            cout << "creating number: " << currentChunk << endl;
+
+            currentChunk = "";
+        } else {
+            cout << "adding character " << character << " to chunk " << currentChunk << endl;
+            currentChunk += character;
+        }
+
+
+        cout << character << endl;
+    }
 
 }
 
