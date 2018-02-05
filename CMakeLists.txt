@@ -3,4 +3,4 @@ project(Project1)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(Project1 main.cpp Digit.cpp Digit.h)
+add_executable(Project1 main.cpp Digit.cpp DigitContainer.cpp Number.cpp)
