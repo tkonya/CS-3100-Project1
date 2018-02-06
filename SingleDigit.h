@@ -9,13 +9,18 @@ class SingleDigit {
     public:
         SingleDigit(char character);
         SingleDigit(char character, SingleDigit* previousDigit);
+        void setNext(SingleDigit *nextDigit);
+        int getValue();
+        bool hasNext();
+        SingleDigit* getNext();
+        bool hasPrevious();
+        SingleDigit* getPrevious();
 
     private:
         int value;
         SingleDigit* next;
         SingleDigit* previous;
 
-        void setNext(SingleDigit *nextDigit);
 };
 
 

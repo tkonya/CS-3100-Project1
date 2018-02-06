@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
-#include "RpnNumber.cpp"
 #include "WholeNumber.h"
+#include "NumberStack.h"
 
 using namespace std;
 
@@ -11,7 +11,12 @@ void interpretInput(const string &);
 const char validOperators[] = {'+', '*', '^'};
 const char delimiter = ' ';
 
+NumberStack* numberStack;
+
 int main() {
+
+    // intialize the stack
+    numberStack = new NumberStack();
 
     // loop so that we
     string userInput;
@@ -58,29 +63,21 @@ void interpretInput(const string &userInput) {
     string currentChunk;
     for (char character : characters) {
 
-        cout << "doing operation +" << endl;
         if (character == validOperators[0]) {
 
             currentChunk = "";
         } else if  (character == validOperators[1]) {
-            cout << "doing operation *" << endl;
 
             currentChunk = "";
         } else if (character == validOperators[2]) {
-            cout << "doing operation ^" << endl;
 
             currentChunk = "";
         } else if (character == delimiter && !currentChunk.empty()) {
-            cout << "creating number: " << currentChunk << endl;
-
+            numberStack->push(new WholeNumber(currentChunk));
             currentChunk = "";
         } else {
-            cout << "adding character " << character << " to chunk " << currentChunk << endl;
             currentChunk += character;
         }
-
-
-        cout << character << endl;
     }
 
 }

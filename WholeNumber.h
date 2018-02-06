@@ -14,10 +14,16 @@ using namespace std;
 class WholeNumber {
     public:
         WholeNumber(string input);
+        WholeNumber(string input, WholeNumber* bottomNumber);
+        WholeNumber* bottomNumber;
+        void setBottomNumber(WholeNumber* bottomNumber);
 
     private:
         SingleDigit* leftMostDigit;
         SingleDigit* rightMostDigit;
+        void buildDigits(string input);
+        void printNumber();
+        void printDigit(SingleDigit* digit);
 };
 
 
