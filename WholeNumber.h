@@ -15,20 +15,28 @@ class WholeNumber {
     public:
         WholeNumber(string input);
         WholeNumber(string input, WholeNumber* bottomNumber);
+        ~WholeNumber();
         WholeNumber* bottomNumber;
         void setBottomNumber(WholeNumber* bottomNumber);
         int getSize();
         int getValueAtIndex(int index);
-
-    void printNumber();
-
-private:
+        string getNumber();
+        void printNumber();
+        bool isEmpty();
+        SingleDigit* getLeftMostDigit();
+        SingleDigit* getRightMostDigit();
+        void x10();
+        int getIntValue();
+    private:
+        string getDigit();
         SingleDigit* leftMostDigit;
         SingleDigit* rightMostDigit;
         void buildDigits(string input);
-
-    void printDigit(SingleDigit * digit);
+        void deleteDigit(SingleDigit* targetDigit);
+        void printDigit(SingleDigit * digit);
         int size;
+        string getDigit(SingleDigit *digit);
+
 };
 
 

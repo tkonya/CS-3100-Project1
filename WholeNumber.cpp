@@ -47,14 +47,37 @@ void WholeNumber::buildDigits(string input) {
 
     // if we stored nothing it may be because either 1) nothing was passed in, or 2) only zeroes were passed in
     // either way, default to zero
-    if (!rightMostDigit && !leftMostDigit) {
+    if (!rightMostDigit && !leftMostDigit && input.find('0') != string::npos) {
         rightMostDigit = new SingleDigit('0');
         leftMostDigit = rightMostDigit;
     }
 }
 
+void WholeNumber::x10() {
+    SingleDigit* currentRmd = rightMostDigit;
+    rightMostDigit = new SingleDigit('0', currentRmd);
+    currentRmd->setNext(rightMostDigit);
+    ++size;
+}
+
 void WholeNumber::setBottomNumber(WholeNumber* bottomWholeNumber) {
     bottomNumber = bottomWholeNumber;
+}
+
+string WholeNumber::getNumber() {
+    if (leftMostDigit) {
+        return getDigit(leftMostDigit);
+    } else {
+        return "0";
+    }
+}
+
+string WholeNumber::getDigit(SingleDigit* digit) {
+    if (digit->hasNext()) {
+        return to_string(digit->getValue()).append(getDigit(digit->getNext()));
+    } else {
+        return to_string(digit->getValue());
+    }
 }
 
 void WholeNumber::printNumber() {
@@ -95,5 +118,35 @@ int WholeNumber::getValueAtIndex(int index) {
     }
 }
 
-// TODO: write destructor
+WholeNumber::~WholeNumber() {
+    // delete digits from left to right
+    if (leftMostDigit) {
+        deleteDigit(leftMostDigit);
+    }
+}
+
+void WholeNumber::deleteDigit(SingleDigit* targetDigit) {
+    if (targetDigit->hasNext()) {
+        deleteDigit(targetDigit->getNext());
+    }
+    delete targetDigit;
+}
+
+bool WholeNumber::isEmpty() {
+    return !leftMostDigit && !rightMostDigit;
+}
+
+SingleDigit *WholeNumber::getLeftMostDigit() {
+    return leftMostDigit;
+}
+
+SingleDigit *WholeNumber::getRightMostDigit() {
+    return rightMostDigit;
+}
+
+int WholeNumber::getIntValue() {
+    return stoi(getNumber());
+}
+
+
 

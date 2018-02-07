@@ -14,6 +14,7 @@ void NumberStack::push(WholeNumber *wholeNumber) {
 
     ++size;
     topNumber = wholeNumber;
+//    cout << "Pushed number (" << wholeNumber->getNumber() << ") - Stack size now " << size << endl;
 }
 
 WholeNumber *NumberStack::pop() {
@@ -29,7 +30,7 @@ WholeNumber *NumberStack::pop() {
     }
 
     --size;
-    currentTop->printNumber();
+//    cout << "Popped number (" << currentTop->getNumber() << ") - Stack size now " << size << endl;
     return currentTop;
 }
 
@@ -45,3 +46,17 @@ NumberStack::NumberStack() {
     size = 0;
     topNumber = nullptr;
 }
+
+NumberStack::~NumberStack() {
+    if (topNumber) {
+        deleteNumber(topNumber);
+    }
+}
+
+void NumberStack::deleteNumber(WholeNumber *wholeNumber) {
+    if (wholeNumber->bottomNumber) {
+        deleteNumber(wholeNumber->bottomNumber);
+    }
+    delete wholeNumber;
+}
+

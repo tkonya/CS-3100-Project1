@@ -12,6 +12,7 @@ class NumberStack {
 private:
     WholeNumber* topNumber;
     int size;
+    void deleteNumber(WholeNumber* wholeNumber);
 
 public:
     void push(WholeNumber* wholeNumber);
@@ -19,6 +20,7 @@ public:
     bool isEmpty();
     int getSize();
     NumberStack();
+    ~NumberStack();
 };
 
 
