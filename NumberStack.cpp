@@ -2,6 +2,7 @@
 // Created by Trevor on 2018-02-05.
 //
 
+#include <iostream>
 #include "NumberStack.h"
 
 void NumberStack::push(WholeNumber *wholeNumber) {
@@ -28,11 +29,16 @@ WholeNumber *NumberStack::pop() {
     }
 
     --size;
+    currentTop->printNumber();
     return currentTop;
 }
 
 bool NumberStack::isEmpty() {
     return size == 0;
+}
+
+int NumberStack::getSize() {
+    return size;
 }
 
 NumberStack::NumberStack() {

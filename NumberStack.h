@@ -17,7 +17,7 @@ public:
     void push(WholeNumber* wholeNumber);
     WholeNumber* pop();
     bool isEmpty();
-
+    int getSize();
     NumberStack();
 };
 

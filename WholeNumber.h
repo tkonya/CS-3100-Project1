@@ -17,13 +17,18 @@ class WholeNumber {
         WholeNumber(string input, WholeNumber* bottomNumber);
         WholeNumber* bottomNumber;
         void setBottomNumber(WholeNumber* bottomNumber);
+        int getSize();
+        int getValueAtIndex(int index);
 
-    private:
+    void printNumber();
+
+private:
         SingleDigit* leftMostDigit;
         SingleDigit* rightMostDigit;
         void buildDigits(string input);
-        void printNumber();
-        void printDigit(SingleDigit* digit);
+
+    void printDigit(SingleDigit * digit);
+        int size;
 };
 
 

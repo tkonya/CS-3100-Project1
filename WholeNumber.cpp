@@ -11,13 +11,11 @@ using namespace std;
 WholeNumber::WholeNumber(string input) {
     bottomNumber = nullptr;
     buildDigits(std::move(input));
-    printNumber();
 }
 
 WholeNumber::WholeNumber(string input, WholeNumber* bottomWholeNumber) {
     bottomNumber = bottomWholeNumber;
     buildDigits(std::move(input));
-    printNumber();
 }
 
 void WholeNumber::buildDigits(string input) {
@@ -26,10 +24,11 @@ void WholeNumber::buildDigits(string input) {
 
     rightMostDigit = nullptr;
     leftMostDigit = nullptr;
+    size = 0;
 
     // build the linked list, from left to right
     for (char character : characters) {
-        if (character > 47 && character < 58) { // ascii 48-57 are numbers, do not accept anything else
+        if (character > 47 && character < 58 && !(!rightMostDigit && character == 48)) { // only accept ascii 48-57, do not accept any leading zeros
             if (rightMostDigit) {
                 // save location of current rightmost digit
                 SingleDigit* currentRmd = rightMostDigit;
@@ -42,7 +41,15 @@ void WholeNumber::buildDigits(string input) {
                 // the first digit is the permanent leftmost digit, and temporarily the rightmost digit, only set this once
                 leftMostDigit = rightMostDigit;
             }
+            ++size;
         }
+    }
+
+    // if we stored nothing it may be because either 1) nothing was passed in, or 2) only zeroes were passed in
+    // either way, default to zero
+    if (!rightMostDigit && !leftMostDigit) {
+        rightMostDigit = new SingleDigit('0');
+        leftMostDigit = rightMostDigit;
     }
 }
 
@@ -64,3 +71,29 @@ void WholeNumber::printDigit(SingleDigit* digit) {
         cout << endl;
     }
 }
+
+int WholeNumber::getSize() {
+    return size;
+}
+
+
+// indexed from the right, so 0 would return the right-most digit
+// index beyond the size of the list should return zero
+int WholeNumber::getValueAtIndex(int index) {
+    if (index > size - 1) {
+        return 0;
+    }
+    SingleDigit* currentDigit = rightMostDigit;
+    while (true) {
+        if (index < 0) {
+            cout << "ERROR: how this happened, I have no idea" << endl;
+        } else if (index == 0) {
+            return currentDigit->getValue();
+        }
+        currentDigit = currentDigit->getPrevious();
+        index--;
+    }
+}
+
+// TODO: write destructor
+
