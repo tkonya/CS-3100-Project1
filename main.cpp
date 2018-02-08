@@ -8,12 +8,13 @@
 using namespace std;
 
 string readUserInput();
+string formatInput(const string &userInput);
 void interpretInput(const string &);
 WholeNumber* add(WholeNumber* operand1, WholeNumber* operand2);
-void test(int testQuantity);
 string addGetStringResult(WholeNumber *operand1, WholeNumber *operand2);
 WholeNumber* multiply(WholeNumber* operand1, WholeNumber* operand2);
-WholeNumber* exponentiate(WholeNumber* operand1, WholeNumber* operand2);
+WholeNumber* exponentiate(WholeNumber* exponent, WholeNumber* base);
+void test(int testQuantity);
 
 const char validOperators[] = {'+', '*', '^'};
 const char delimiter = ' ';
@@ -31,10 +32,10 @@ int main() {
         if (userInput.find("test") != string::npos) {
             // run the automated test
             cout << "Running the automated test..." << endl;
-            test(100000000);
-        } else {
+            test(1000000);
+        } else if (userInput.find("exit") == string::npos) {
             // decipher the input
-            cout << "User input: " << userInput << endl;
+            cout << "Formatted User input: " << formatInput(userInput) << endl;
             interpretInput(userInput);
             cout << endl << "------------------------" << endl;
         }
@@ -150,6 +151,32 @@ string readUserInput() {
     return fullEntry;
 }
 
+string formatInput(const string &userInput) {
+    string formattedInput;
+    vector<char> characters(userInput.c_str(), userInput.c_str() + userInput.size() + 1);
+
+    bool previousValueSpace = true; // initializing this to true will ensure no leading spaces are written
+    for (char character : characters) {
+        if ((character > 47 && character < 58) || character == 42 || character == 43 || character == 94) {
+            if (character > 47 && character < 58) {
+                formattedInput.append(to_string(character - 48));
+            } else if (character == 43) {
+                formattedInput.append("+");
+            } else if (character == 42) {
+                formattedInput.append("*");
+            } else if (character == 94) {
+                formattedInput.append("^");
+            }
+            previousValueSpace = false;
+        } else if (character == 32 && !previousValueSpace) {
+            formattedInput.append(" ");
+            previousValueSpace = true;
+        }
+    }
+
+    return formattedInput;
+}
+
 /**
  * Parses user input and does calculations live
  * @param userInput
@@ -208,9 +235,9 @@ void interpretInput(const string &userInput) {
 
     // if we only have one thing left in the stack then the number of operators and operands were correct
     if (numberStack->getSize() == 1) {
-        cout << endl <<"Result of all operations: ";
+        cout << "Result of all operations: ";
         WholeNumber* result = numberStack->pop();
-        cout << endl;
+        cout << result->getNumber() << endl;
         delete result;
     } else {
         cout << "Error: incorrect number of operators or operands" << endl;
@@ -264,7 +291,7 @@ string addGetStringResult(WholeNumber *operand1, WholeNumber *operand2) {
         }
     }
 
-//    cout << "Addition operation: " << operand1->getNumber() << " + " << operand2->getNumber() << " = " << totalResult << endl;
+    cout << "Addition operation: " << operand1->getNumber() << " + " << operand2->getNumber() << " = " << totalResult << endl;
     return totalResult;
 }
 
