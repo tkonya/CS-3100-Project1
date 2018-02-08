@@ -39,3 +39,4 @@ bool SingleDigit::hasPrevious() {
 SingleDigit* SingleDigit::getPrevious() {
     return previous;
 }
+
