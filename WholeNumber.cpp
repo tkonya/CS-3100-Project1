@@ -111,15 +111,6 @@ string WholeNumber::getDigit(SingleDigit* digit) {
 }
 
 /**
- * Prints the WholeNumber
- */
-void WholeNumber::printNumber() {
-    if (leftMostDigit) {
-        printDigit(leftMostDigit);
-    }
-}
-
-/**
  * Recursively prints the digit and all digits to the right
  * @param digit
  */
@@ -215,6 +206,7 @@ SingleDigit *WholeNumber::getRightMostDigit() {
 int WholeNumber::getIntValue() {
     return stoi(getNumber());
 }
+
 
 
 

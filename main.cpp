@@ -19,6 +19,10 @@ void test(int testQuantity);
 const char validOperators[] = {'+', '*', '^'};
 const char delimiter = ' ';
 
+/**
+ * It's the main method, what more is there to say
+ * @return doesn't return anything
+ */
 int main() {
 
     // loop so that we
@@ -258,8 +262,8 @@ WholeNumber* add(WholeNumber* operand1, WholeNumber* operand2) {
 
 /**
  * Adds two WholeNumber objects together
- * @param operand1
- * @param operand2
+ * @param operand1 the first number that will be added
+ * @param operand2 the second number that will be added
  * @return the result in the form of a string
  */
 string addGetStringResult(WholeNumber *operand1, WholeNumber *operand2) {
@@ -291,7 +295,7 @@ string addGetStringResult(WholeNumber *operand1, WholeNumber *operand2) {
         }
     }
 
-    cout << "Addition operation: " << operand1->getNumber() << " + " << operand2->getNumber() << " = " << totalResult << endl;
+//    cout << "Addition operation: " << operand1->getNumber() << " + " << operand2->getNumber() << " = " << totalResult << endl;
     return totalResult;
 }
 

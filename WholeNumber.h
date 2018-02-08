@@ -21,14 +21,12 @@ class WholeNumber {
         int getSize();
         int getValueAtIndex(int index);
         string getNumber();
-        void printNumber();
         bool isEmpty();
         SingleDigit* getLeftMostDigit();
         SingleDigit* getRightMostDigit();
         void x10();
         int getIntValue();
     private:
-        string getDigit();
         SingleDigit* leftMostDigit;
         SingleDigit* rightMostDigit;
         void buildDigits(string input);
