@@ -11,7 +11,6 @@ string readUserInput();
 string formatInput(const string &userInput);
 void interpretInput(const string &);
 WholeNumber* add(WholeNumber* operand1, WholeNumber* operand2);
-string addGetStringResult(WholeNumber *operand1, WholeNumber *operand2);
 WholeNumber* multiply(WholeNumber* operand1, WholeNumber* operand2);
 WholeNumber* exponentiate(WholeNumber* exponent, WholeNumber* base);
 void test(int testQuantity);
@@ -48,86 +47,6 @@ int main() {
 
     cout << "Thank you, goodbye";
     exit(EXIT_SUCCESS);
-}
-
-/**
- * Randomly generates calculations with two operands and one operator. Does a roughly equal number of tests for each of the three operators.
- * @param testQuantity
- */
-void test(int testQuantity) {
-
-    int operand1Int;
-    int operand2Int;
-    int passed = 0;
-    int failed = 0;
-    WholeNumber* operand1WholeNumber;
-    WholeNumber* operand2WholeNumber;
-    WholeNumber* result;
-
-    cout << "Testing addition..." << endl;
-    for (int i = 0; i < testQuantity / 3; ++i) {
-        operand1Int = rand() % 1000000;
-        operand2Int = rand() % 1000000;
-        operand1WholeNumber = new WholeNumber(to_string(operand1Int));
-        operand2WholeNumber = new WholeNumber(to_string(operand2Int));
-        result = add(operand1WholeNumber, operand2WholeNumber);
-
-        if (result->getIntValue() == (operand1Int + operand2Int)) {
-//            cout << "SUCCESS: Addition operation: " << operand1WholeNumber->getNumber() << " + " << operand2WholeNumber->getNumber() << " = " << result->getNumber() << endl;
-            ++passed;
-        } else {
-            cout << "FAILURE: Addition operation: " << operand1WholeNumber->getNumber() << " + " << operand2WholeNumber->getNumber() << " != " << result->getNumber() << endl;
-            ++failed;
-        }
-
-        delete operand1WholeNumber;
-        delete operand2WholeNumber;
-        delete result;
-    }
-
-    cout << "Testing multiplication..." << endl;
-    for (int i = 0; i < testQuantity / 3; ++i) {
-        operand1Int = rand() % 46340;
-        operand2Int = rand() % 46340;
-        operand1WholeNumber = new WholeNumber(to_string(operand1Int));
-        operand2WholeNumber = new WholeNumber(to_string(operand2Int));
-        result = multiply(operand1WholeNumber, operand2WholeNumber);
-
-        if (result->getIntValue() == (operand1Int * operand2Int)) {
-//            cout << "SUCCESS: Multiplication operation: " << operand1WholeNumber->getNumber() << " * " << operand2WholeNumber->getNumber() << " = " << result->getNumber() << endl;
-            ++passed;
-        } else {
-            cout << "FAILURE: Multiplication operation: " << operand1WholeNumber->getNumber() << " * " << operand2WholeNumber->getNumber() << " != " << result->getNumber() << endl;
-            ++failed;
-        }
-
-        delete operand1WholeNumber;
-        delete operand2WholeNumber;
-        delete result;
-    }
-
-    cout << "Testing exponentiation..." << endl;
-    for (int i = 0; i < testQuantity / 3 + (testQuantity - (testQuantity / 3) * 3); ++i) {
-        operand1Int = rand() % 9;
-        operand2Int = rand() % 9;
-        operand1WholeNumber = new WholeNumber(to_string(operand1Int));
-        operand2WholeNumber = new WholeNumber(to_string(operand2Int));
-        result = exponentiate(operand1WholeNumber, operand2WholeNumber);
-
-        if (result->getIntValue() == pow(operand2Int, operand1Int)) {
-//            cout << "SUCCESS: Exponentiation operation: " << operand2WholeNumber->getNumber() << " ^ " << operand1WholeNumber->getNumber() << " = " << result->getNumber() << endl;
-            ++passed;
-        } else {
-            cout << "FAILURE: Exponentiation operation: " << operand2WholeNumber->getNumber() << " ^ " << operand1WholeNumber->getNumber() << " != " << result->getNumber() << endl;
-            ++failed;
-        }
-
-        delete operand1WholeNumber;
-        delete operand2WholeNumber;
-        delete result;
-    }
-
-    cout << endl << "Test complete: " << passed << " passed, " << failed << " failed" << endl << "-------------------------------------" << endl;
 }
 
 /**
@@ -251,26 +170,17 @@ void interpretInput(const string &userInput) {
 }
 
 /**
- * Adds two WholeNumber objects together
- * @param operand1 the first number that will be added
- * @param operand2 the second number that will be added
- * @return the result in the form of a new WholeNumber object
- */
+* Adds two WholeNumber objects together
+* @param operand1 the first number that will be added
+* @param operand2 the second number that will be added
+* @return the result in the form of a new WholeNumber object
+*/
 WholeNumber* add(WholeNumber* operand1, WholeNumber* operand2) {
-    return new WholeNumber(addGetStringResult(operand1, operand2));
-}
-
-/**
- * Adds two WholeNumber objects together
- * @param operand1 the first number that will be added
- * @param operand2 the second number that will be added
- * @return the result in the form of a string
- */
-string addGetStringResult(WholeNumber *operand1, WholeNumber *operand2) {
     int maxSize;
     if (operand1->getSize() > operand2->getSize()) {
         maxSize = operand1->getSize();
-    } else {
+    }
+    else {
         maxSize = operand2->getSize();
     }
 
@@ -289,22 +199,23 @@ string addGetStringResult(WholeNumber *operand1, WholeNumber *operand2) {
         if (currentResult.size() > 1) {
             totalResult.insert(0, to_string(currentResult[1] - 48));
             carryValue = currentResult[0] - 48;
-        } else {
+        }
+        else {
             totalResult.insert(0, to_string(currentResult[0] - 48));
             carryValue = 0;
         }
     }
 
-//    cout << "Addition operation: " << operand1->getNumber() << " + " << operand2->getNumber() << " = " << totalResult << endl;
-    return totalResult;
+    //	cout << "Addition operation: " << operand1->getNumber() << " + " << operand2->getNumber() << " = " << totalResult << endl;
+    return new WholeNumber(totalResult);
 }
 
 /**
- * Multiplies two WholeNumber objects together
- * @param operand1 the first number to be multiplied
- * @param operand2 the second number to be multipliec
- * @return the result in the form of a WholeNumber object
- */
+* Multiplies two WholeNumber objects together
+* @param operand1 the first number to be multiplied
+* @param operand2 the second number to be multipliec
+* @return the result in the form of a WholeNumber object
+*/
 WholeNumber* multiply(WholeNumber* operand1, WholeNumber* operand2) {
 
     WholeNumber* total = new WholeNumber("0");
@@ -318,7 +229,7 @@ WholeNumber* multiply(WholeNumber* operand1, WholeNumber* operand2) {
         subTotal = new WholeNumber("0");
         for (int k = 0; k < multiplier; ++k) {
             previousSubTotal = subTotal;
-            subTotal = new WholeNumber(addGetStringResult(operand1, subTotal));
+            subTotal = add(operand1, subTotal);
             delete previousSubTotal;
         }
 
@@ -328,40 +239,133 @@ WholeNumber* multiply(WholeNumber* operand1, WholeNumber* operand2) {
         }
 
         previousTotal = total;
-        total = new WholeNumber(addGetStringResult(total, subTotal));
+        total = add(total, subTotal);
         delete previousTotal;
 
         delete subTotal;
     }
 
-//    cout << "Multiplication operation: " << operand1->getNumber() << " * " << operand2->getNumber() << " = " << total->getNumber() << endl;
+//	cout << "Multiplication operation: " << operand1->getNumber() << " * " << operand2->getNumber() << " = " << total->getNumber() << endl;
     return total;
 }
 
 /**
- * Exponentiate a number
- * @param exponent the exponent
- * @param base the base number to be raised to the exponent's power
- * @return the result in the form of a WholeNumber object
- */
+* Exponentiate a number
+* @param exponent the exponent
+* @param base the base number to be raised to the exponent's power
+* @return the result in the form of a WholeNumber object
+*/
 WholeNumber* exponentiate(WholeNumber* exponent, WholeNumber* base) {
-    int exponentValue = exponent->getIntValue();
+    const auto exponentValue = exponent->getIntValue();
 
-    WholeNumber* total;
     if (exponentValue == 0) {
-        total = new WholeNumber("1");
-    } else if (exponentValue == 1) {
-        total = new WholeNumber(base->getNumber());
-    } else {
-        total = new WholeNumber(base->getNumber());
+//		cout << "Exponentiation operation: " << base->getNumber() << " ^ 0 = 1" << endl;
+        return new WholeNumber("1");
+    }
+    else {
+        WholeNumber * total = new WholeNumber(base->getNumber());
+        WholeNumber * previousTotal = total; // keep track of this, because when we reassign something to total we'll need to delete the object it used to be pointing to
         for (int i = 1; i < exponentValue; ++i) {
             total = multiply(total, base);
+            delete previousTotal;
+            if (i < exponentValue)
+            {
+                previousTotal = total;
+            }
         }
+//		cout << "Exponentiation operation: " << base->getNumber() << " ^ " << exponent->getNumber() << " = " << total->getNumber() << endl;
         return total;
     }
 
-//    cout << "Exponentiation operation: " << base->getNumber() << " ^ " << exponent->getNumber() << " = " << total->getNumber() << endl;
-    return total;
+}
+
+/**
+* Randomly generates calculations with two operands and one operator. Does a roughly equal number of tests for each of the three operators.
+* @param testQuantity
+*/
+void test(int testQuantity) {
+
+    int operand1Int;
+    int operand2Int;
+    int passed = 0;
+    int failed = 0;
+    WholeNumber* operand1WholeNumber;
+    WholeNumber* operand2WholeNumber;
+    WholeNumber* result;
+
+    cout << "Testing addition... " << endl;
+    for (int i = 0; i < testQuantity; ++i) {
+        cout << "\r" << (i + 1) << "/" << testQuantity;
+
+        operand1Int = rand() % 1073741823;
+        operand2Int = rand() % 1073741823;
+        operand1WholeNumber = new WholeNumber(to_string(operand1Int));
+        operand2WholeNumber = new WholeNumber(to_string(operand2Int));
+        result = add(operand1WholeNumber, operand2WholeNumber);
+
+        if (result->getIntValue() == (operand1Int + operand2Int)) {
+            //            cout << "SUCCESS: Addition operation: " << operand1WholeNumber->getNumber() << " + " << operand2WholeNumber->getNumber() << " = " << result->getNumber() << endl;
+            ++passed;
+        }
+        else {
+            cout << "FAILURE: Addition operation: " << operand1WholeNumber->getNumber() << " + " << operand2WholeNumber->getNumber() << " != " << result->getNumber() << endl;
+            ++failed;
+        }
+
+        delete operand1WholeNumber;
+        delete operand2WholeNumber;
+        delete result;
+    }
+
+    cout << endl << "Testing multiplication... " << endl;
+    for (int i = 0; i < testQuantity; ++i) {
+        cout << "\r" << (i + 1) << "/" << testQuantity;
+
+        operand1Int = rand() % 46340;
+        operand2Int = rand() % 46340;
+        operand1WholeNumber = new WholeNumber(to_string(operand1Int));
+        operand2WholeNumber = new WholeNumber(to_string(operand2Int));
+        result = multiply(operand1WholeNumber, operand2WholeNumber);
+
+        if (result->getIntValue() == (operand1Int * operand2Int)) {
+            //            cout << "SUCCESS: Multiplication operation: " << operand1WholeNumber->getNumber() << " * " << operand2WholeNumber->getNumber() << " = " << result->getNumber() << endl;
+            ++passed;
+        }
+        else {
+            cout << "FAILURE: Multiplication operation: " << operand1WholeNumber->getNumber() << " * " << operand2WholeNumber->getNumber() << " != " << result->getNumber() << endl;
+            ++failed;
+        }
+
+        delete operand1WholeNumber;
+        delete operand2WholeNumber;
+        delete result;
+    }
+
+    cout << endl << "Testing exponentiation... " << endl;
+    for (int i = 0; i < testQuantity; ++i) {
+        cout << "\r" << (i + 1) << "/" << testQuantity;
+
+        operand1Int = rand() % 9;
+        operand2Int = rand() % 9;
+        operand1WholeNumber = new WholeNumber(to_string(operand1Int));
+        operand2WholeNumber = new WholeNumber(to_string(operand2Int));
+        result = exponentiate(operand1WholeNumber, operand2WholeNumber);
+
+        if (result->getIntValue() == pow(operand2Int, operand1Int)) {
+            //            cout << "SUCCESS: Exponentiation operation: " << operand2WholeNumber->getNumber() << " ^ " << operand1WholeNumber->getNumber() << " = " << result->getNumber() << endl;
+            ++passed;
+        }
+        else {
+            cout << "FAILURE: Exponentiation operation: " << operand2WholeNumber->getNumber() << " ^ " << operand1WholeNumber->getNumber() << " != " << result->getNumber() << endl;
+            ++failed;
+        }
+
+        delete operand1WholeNumber;
+        delete operand2WholeNumber;
+        delete result;
+    }
+
+    cout << endl << "Test complete: " << passed << " passed, " << failed << " failed" << endl << "-------------------------------------" << endl;
 }
 
 
